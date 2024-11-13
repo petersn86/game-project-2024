@@ -68,7 +68,6 @@ public class fov_script : MonoBehaviour
         {
             Vector3 vertex;
             RaycastHit2D raycastHit = Physics2D.Raycast(origin, GetVectorFromAngle(angle), viewDistance);
-            RaycastHit2D raycastHitPlayer = Physics2D.Raycast(origin, GetVectorFromAngle(angle), viewDistance, playerMask);
 
             /* If no hit */
             if(raycastHit.collider == null)
@@ -79,6 +78,10 @@ public class fov_script : MonoBehaviour
             else
             {
                 vertex = raycastHit.point;
+
+
+                RaycastHit2D raycastHitPlayer 
+                        = Physics2D.Raycast(origin, GetVectorFromAngle(angle), Vector3.Distance(origin, vertex), playerMask);
 
                 /* If player is hit */
                 if (raycastHitPlayer.collider != null)
