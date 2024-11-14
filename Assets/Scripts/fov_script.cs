@@ -11,6 +11,8 @@ public class fov_script : MonoBehaviour
     private enemy_script enemyObjectScript;
     public float smoothTime = 0.5f;
     private float currentVelocity;
+    public LayerMask playerMask;
+    public bool playerDetected;
 
     /* Get Vector from given angle */
     public static Vector3 GetVectorFromAngle(float angle)
@@ -19,6 +21,7 @@ public class fov_script : MonoBehaviour
         return new Vector3(Mathf.Cos(angleRad), Mathf.Sin(angleRad));
     }
 
+    /* Get Angle from given vector */
     public static float GetAngleFromVector(Vector2 dir)
     {
         dir = dir.normalized;
@@ -38,7 +41,7 @@ public class fov_script : MonoBehaviour
         /* Set Field of View */
         fov                             = 90;
 
-        /* Get Enemy Scipt from Enemy game object */
+        /* Get Enemy Script from Enemy game object */
         enemyObjectScript               = enemyObject.GetComponent<enemy_script>();
     }
 
@@ -75,6 +78,16 @@ public class fov_script : MonoBehaviour
             else
             {
                 vertex = raycastHit.point;
+
+
+                RaycastHit2D raycastHitPlayer 
+                        = Physics2D.Raycast(origin, GetVectorFromAngle(angle), Vector3.Distance(origin, vertex), playerMask);
+
+                /* If player is hit */
+                if (raycastHitPlayer.collider != null)
+                {
+                    playerDetected = true;
+                }
             }
 
             vertices[vertexIndex] = vertex;
