@@ -20,7 +20,7 @@ public class SliderBinding : MonoBehaviour
         // If a player object is found, position the slider beneath it
         if (player != null)
         {
-            slider.transform.position = player.transform.position + new Vector3(0, -1, 0); // Adjust the y-offset as needed
+            slider.transform.position = player.transform.position + new Vector3(0, -0.15f, 0); // Adjust the y-offset as needed
             slider.transform.rotation = Quaternion.identity; // Ensure the slider doesn't rotate
         }
     }
