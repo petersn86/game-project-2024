@@ -40,6 +40,8 @@ public class enemy_script : MonoBehaviour
 
         playerCaught    = false;
         caughtCounter   = 5f;
+
+        Debug.unityLogger.logEnabled = false;
     }
 
     void Update()
