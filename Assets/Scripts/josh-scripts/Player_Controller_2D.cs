@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UI; // For UI components like Slider
 
 public class Player_Controller_2D : MonoBehaviour
 {
@@ -26,6 +27,9 @@ public class Player_Controller_2D : MonoBehaviour
     private TilemapCollider2D tilemapCollider;
     public GameObject tilemap;
     private Color currentColor;
+
+    // Reference to the cooldown slider
+    public Slider dashCooldownSlider;
 
     // Private variables 
     private Rigidbody2D rb; // Reference to the Rigidbody2D component attached to the player
@@ -58,6 +62,14 @@ public class Player_Controller_2D : MonoBehaviour
         }
 
         tilemapCollider = tilemap.GetComponent<TilemapCollider2D>();
+
+        // Initialize the slider if assigned
+        if (dashCooldownSlider != null)
+        {
+            dashCooldownSlider.maxValue = dashCooldown;
+            dashCooldownSlider.value = dashCooldown;
+            dashCooldownSlider.gameObject.SetActive(false); // Start inactive
+        }
     }
 
     void Update()
@@ -92,10 +104,16 @@ public class Player_Controller_2D : MonoBehaviour
                 spriteRenderer.color = new Color(currentColor.r, currentColor.g, currentColor.b, 1f); // Reset opacity
             }
 
-            // Check if cooldown has completed
-            if (cooldownTimer <= 0)
+            // Update the slider value
+            if (dashCooldownSlider != null)
             {
-                canDash = true; // Allow the player to dash again
+                dashCooldownSlider.value = cooldownTimer;
+
+                if (cooldownTimer <= 0)
+                {
+                    dashCooldownSlider.gameObject.SetActive(false); // Hide the slider when cooldown ends
+                    canDash = true; // Allow the player to dash again
+                }
             }
         }
 
@@ -136,6 +154,13 @@ public class Player_Controller_2D : MonoBehaviour
         canDash = false;
         cooldownTimer = dashCooldown; // Start cooldown timer
         trailTimer    = trailCooldown;
+
+        // Activate the slider and set its value
+        if (dashCooldownSlider != null)
+        {
+            dashCooldownSlider.gameObject.SetActive(true);
+            dashCooldownSlider.value = dashCooldown;
+        }
     }
 
     private IEnumerator DashCoroutine()
