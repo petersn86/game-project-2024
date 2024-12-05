@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.UI; // For UI components like Slider
 
+
 public class Player_Controller_2D : MonoBehaviour
 {
     // Public variables
@@ -42,6 +43,8 @@ public class Player_Controller_2D : MonoBehaviour
 
     void Start()
     {
+        
+
         // Initialize the Rigidbody2D and SpriteRenderer components
         rb = GetComponent<Rigidbody2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -79,10 +82,13 @@ public class Player_Controller_2D : MonoBehaviour
         float verticalInput = Input.GetAxisRaw("Vertical");
 
         // Sprite change logic
+        //if (!Input.GetKeyDown(KeyCode.W) && !Input.GetKeyDown(KeyCode.S) && !Input.GetKeyDown(KeyCode.A) && !Input.GetKeyDown(KeyCode.D)) { 
         if (Input.GetKeyDown(KeyCode.W)) { spriteRenderer.sprite = trainerSpriteUp; lastInput = KeyCode.W; }
         if (Input.GetKeyDown(KeyCode.S)) { spriteRenderer.sprite = trainerSpriteDown; lastInput = KeyCode.S; }
         if (Input.GetKeyDown(KeyCode.A)) { spriteRenderer.sprite = trainerSpriteLeft; lastInput = KeyCode.A; }
         if (Input.GetKeyDown(KeyCode.D)) { spriteRenderer.sprite = trainerSpriteRight; lastInput = KeyCode.D; }
+        //}
+
 
         // Dash mechanic logic with cooldown
         if (Input.GetKeyDown(KeyCode.Space) && canDash)
@@ -131,6 +137,7 @@ public class Player_Controller_2D : MonoBehaviour
 
             movement = isMovingHorizontally ? new Vector2(horizontalInput, 0) : new Vector2(0, verticalInput);
         }
+
     }
 
     private void FixedUpdate()
@@ -204,4 +211,6 @@ public class Player_Controller_2D : MonoBehaviour
         // Apply the dash velocity (forceful movement in the dash direction)
         rb.velocity = dashDirection * dashSpeed;
     }
+
+    
 }

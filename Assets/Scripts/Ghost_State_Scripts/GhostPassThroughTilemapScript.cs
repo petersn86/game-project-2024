@@ -95,6 +95,7 @@ public class WallTilemapGhostHandler : MonoBehaviour
                 lastTransparentTile = tilePosition;
                 tileChanged = true;
             }
+
         }
     }
 
