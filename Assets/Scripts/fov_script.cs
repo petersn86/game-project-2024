@@ -109,6 +109,8 @@ public class fov_script : MonoBehaviour
         mesh.uv         = uv;
         mesh.triangles  = triangles;
 
+        mesh.RecalculateBounds();
+
 
     }
 
@@ -116,7 +118,12 @@ public class fov_script : MonoBehaviour
     {
         float targetAngle = GetAngleFromVector(aimDirection) + (fov / 2f);
 
+        float turnSpeed = 5f;
+
         /* Smoothly interpolate the target angle */
-        startingAngle = Mathf.SmoothDampAngle(startingAngle, targetAngle, ref currentVelocity, smoothTime);
+        //startingAngle = Mathf.SmoothDampAngle(startingAngle, targetAngle, ref currentVelocity, smoothTime);
+
+        startingAngle = Mathf.LerpAngle(startingAngle, targetAngle, Time.deltaTime * turnSpeed);
+
     }
 }
