@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: tilemap_23
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: 1949691282, guid: c6e50f655524f954292c129fde44368b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 0.48508072, g: 0, b: 1, a: 1}
   m_Transform:
     e00: 1
     e01: 0

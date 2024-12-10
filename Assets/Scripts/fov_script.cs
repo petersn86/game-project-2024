@@ -9,7 +9,7 @@ public class fov_script : MonoBehaviour
     public float startingAngle;
     public GameObject    enemyObject;
     private enemy_script enemyObjectScript;
-    public float smoothTime = 0.5f;
+    public float smoothTime = 0.1f;
     private float currentVelocity;
     public LayerMask playerMask;
     public bool playerDetected;
@@ -39,7 +39,7 @@ public class fov_script : MonoBehaviour
         GetComponent<MeshFilter>().mesh = mesh;
 
         /* Set Field of View */
-        fov                             = 90;
+        fov                             = 45;
 
         /* Get Enemy Script from Enemy game object */
         enemyObjectScript               = enemyObject.GetComponent<enemy_script>();
@@ -51,7 +51,7 @@ public class fov_script : MonoBehaviour
         /* Set number of rays & mesh properties */ 
         int rayCount        = 50;
         float angle         = startingAngle;
-        float viewDistance  = 10f;
+        float viewDistance  = 1.5f;
         float angleIncrease = fov / rayCount;
         Vector3 origin      = enemyObjectScript.originOfEnemy;
 
@@ -109,6 +109,8 @@ public class fov_script : MonoBehaviour
         mesh.uv         = uv;
         mesh.triangles  = triangles;
 
+        mesh.RecalculateBounds();
+
 
     }
 
@@ -116,7 +118,12 @@ public class fov_script : MonoBehaviour
     {
         float targetAngle = GetAngleFromVector(aimDirection) + (fov / 2f);
 
+        float turnSpeed = 5f;
+
         /* Smoothly interpolate the target angle */
-        startingAngle = Mathf.SmoothDampAngle(startingAngle, targetAngle, ref currentVelocity, smoothTime);
+        //startingAngle = Mathf.SmoothDampAngle(startingAngle, targetAngle, ref currentVelocity, smoothTime);
+
+        startingAngle = Mathf.LerpAngle(startingAngle, targetAngle, Time.deltaTime * turnSpeed);
+
     }
 }

@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement; //Tracking current scene
+
 
 public class enemy_script : MonoBehaviour
 {
@@ -25,10 +27,20 @@ public class enemy_script : MonoBehaviour
 
     public GameObject   player;
 
-
     private Rigidbody2D rb;
+
+    public string leveltoLoad;
+    private string sceneName;
+
+
     void Start()
     {
+        // Create a temporary reference to the current scene.
+		Scene currentScene = SceneManager.GetActiveScene ();
+
+		// Retrieve the name of this scene.
+		sceneName = currentScene.name;
+
         /* Get RigidBody Component */
         rb          = GetComponent<Rigidbody2D>();
 
@@ -40,6 +52,9 @@ public class enemy_script : MonoBehaviour
 
         playerCaught    = false;
         caughtCounter   = 5f;
+
+        Debug.unityLogger.logEnabled = false;
+
     }
 
     void Update()
@@ -62,7 +77,10 @@ public class enemy_script : MonoBehaviour
 
             if (deathCounter <= 0) 
             {
+                if(sceneName == "GridScene")
                 Debug.Log("Player Died!");
+                Application.LoadLevel("LossScene"); 
+                
             }
 
             caughtCounter   -= Time.deltaTime;
@@ -96,7 +114,12 @@ public class enemy_script : MonoBehaviour
                 moveTowardsPatrolPoint();
             }
         }
-
+        if (!fovObjectScript.playerDetected) 
+        {
+            playerCaught    = false;
+            caughtCounter   = 5f;
+        }
+    
     }
     
     /* Move enemy to next patrol point */
